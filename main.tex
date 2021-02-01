@@ -1,0 +1,55 @@
+\documentclass[10pt,twoside,twocolumn]{article}
+\usepackage[latin9]{inputenc}
+
+% PAGE FORMATTING %
+\usepackage[landscape]{geometry}
+\geometry{verbose,tmargin=0.5in,bmargin=0.75in,lmargin=0.5in,rmargin=0.5in}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{0.25in}
+
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{esint}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{xcolor}
+
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand{\R}[0]{\mathbb{R}} % real numbers
+\newcommand{\Z}[0]{\mathbb{Z}} % integers
+\newcommand{\N}[0]{\mathbb{N}} % natural numbers
+\newcommand{\nat}[0]{\mathbb{N}} % natural numbers
+\newcommand{\Q}[0]{\mathbb{Q}} % rational numbers
+\newcommand{\C}[0]{\mathbb{C}} % Complex numbers
+
+% minus with a dot on top
+\makeatletter
+\newcommand{\dotminus}{\mathbin{\text{\@dotminus}}}
+
+\newcommand{\@dotminus}{%
+  \ooalign{\hidewidth\raise1ex\hbox{.}\hidewidth\cr$\m@th-$\cr}%
+}
+\makeatother
+
+% make it a little easier on the eyes
+% \pagecolor[HTML]{2E3440} %black
+% \color[HTML]{E5E9F0} %very light grey
+
+% CONTENT %
+\begin{document}
+
+\title{Computability \& Logic}
+\date{}
+\maketitle
+
+\part{Computatibility Theory}
+
+\input{6_recursive_functions}
+\input{7_recursive_sets_and_relations}
+
+\end{document}

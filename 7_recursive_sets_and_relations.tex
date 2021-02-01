@@ -1,0 +1,199 @@
+\section{Recursive Sets \& Relations}
+
+\subsection{Recursive Relations}
+
+A relation $R(x_1, \ldots, x_n)$ is (primitive) recursive if its characteristic 
+function
+
+$$f(x_1, \ldots, x_n) = 
+    \begin{cases}
+        1 & \textrm{if } R(x_1, \ldots, x_n) \textrm{ holds} \\
+        0 & \textrm{otherwise}
+    \end{cases}
+$$
+
+is (primitive) recursive.
+
+\paragraph{Definition by Cases}
+Suppose that $f$ is a function defined in the following form:
+
+$$f(x_1, \ldots, x_n) =
+    \begin{cases}
+        g_1(x_1, \ldots, x_n) & \textrm{if } C_1(x_1, \ldots, x_n) \\
+        \vdots & \vdots \\
+        g_k(x_1, \ldots, x_n) & \textrm{if } C_k(x_1, \ldots, x_n)
+    \end{cases}
+$$
+
+$f$ is (primitive) recursive if $C_1, \ldots, C_k$ are mutually exclusive 
+(primitive) recursive relations and $g_1, \ldots, g_k$ are (primitive) recursive
+(total) functions. 
+
+\begin{proof}
+$f$ can be constructed as
+
+$$f(\mathbf{x}) = c_1(\mathbf{x}) \cdot g_1(\mathbf{x}) + \ldots + 
+c_k(\mathbf{x}) \cdot g_k(\mathbf{x})$$
+
+where $c_1, \ldots, c_k$ are the characteristic functions of $C_1, \ldots, C_k$ 
+and $\mathbf{x}$ denotes the argument list $x_1, \ldots, x_n$. This is 
+(primitive) recursive because addition and multiplication are (primitive) 
+recursive.
+\end{proof}
+
+\paragraph{Substitution}
+
+Given a (primitive) recursive relation $R(y_1, \ldots, y_n)$ and (primitive) 
+recursive \textit{total} functions $f_1(x_1, \ldots, x_k), \ldots, f_n(x_1, 
+\ldots, x_k)$, the relation $\mathrm{Sub}[R, f_1, \ldots, f_n]$ defined as
+
+$$
+\mathrm{Sub}[R, f_1, \ldots, f_n](x_1, \ldots, x_k) 
+\leftrightarrow
+R(f_1(x_1, \ldots, x_k), \ldots, f_n(x_1, \ldots, x_k))
+$$
+
+is (primitive) recursive.
+
+\begin{proof}
+The characteristic function $c^*$ of $R^*$ can be constructed by composition
+
+$$c^* = \mathrm{Cn}[c, f_1, \ldots, f_n]$$
+
+where $c$ is the characteristic function of $R$.
+\end{proof}
+
+\paragraph{Graph Relations}
+
+The graph relation $F$ of a function $f(x_1, \ldots, x_n)$ is defined as
+
+$$
+F(x_1, \ldots, x_n, y)
+\leftrightarrow
+f(x_1, \ldots, x_n) = y
+$$
+
+or in the point-free notation, $F$ can be defined as
+
+$$
+\mathrm{Sub}[=, \mathrm{Cn}[f, id^{n+1}_1, \ldots, id^{n+1}_n], id^{n+1}_{n+1}]
+$$
+
+which implies that $F$ is (primitive) recursive if $f$ is.
+
+\paragraph{Logical Operations}
+
+There are logical operations that mirror the classical logic connectives. They
+define new relations from previous ones. If the relations it operates on are 
+(primitive) recursive, then so is the newly defined relation.
+
+Here, $\mathbf{x}$ denotes an argument list $x_1, \ldots, x_n$.
+
+\begin{enumerate}
+    \item Given a relation $R(\mathbf{x})$, its negation
+    $S(\mathbf{x})$ holds iff $R(\mathbf{x})$ does not.
+    
+    $$S(\mathbf{x}) \leftrightarrow \neg R(\mathbf{x})$$
+    
+    \item Given relations $R_1(\mathbf{x})$ and
+    $R_2(\mathbf{x})$, their conjunction $S(\mathbf{x})$ holds iff
+    $R_1(\mathbf{x})$ and $R_2(\mathbf{x})$ both hold.
+    
+    $$S(\mathbf{x}) \leftrightarrow R_1(\mathbf{x}) \wedge R_2(\mathbf{x})$$
+    
+    \item Their disjunction $S(\mathbf{x})$ holds iff
+    at least one of $R_1(\mathbf{x})$ and $R_2(\mathbf{x})$ holds.
+    
+    $$S(\mathbf{x}) \leftrightarrow R_1(\mathbf{x}) \vee R_2(\mathbf{x})$$
+    
+    \item Given the relation $R(\mathbf{x}, v)$, the bounded universal 
+    quantification $S$ is defined as
+    
+    $$S(\mathbf{x}, u) \leftrightarrow \forall v. (v < u \rightarrow 
+    R(\mathbf{x}, v))$$
+    
+    \item The bounded existential quantification $S$ is defined as
+    
+    $$S(\mathbf{x}, u) \leftrightarrow \exists v. (v < u  \wedge 
+    R(\mathbf{x}, v))$$
+\end{enumerate}
+
+\begin{proof} 
+Each proof defines the characteristic function of the operator in 
+terms of the characteristic function(s) of the given relation(s).
+
+    \begin{enumerate}
+        \item $c_{\neg}(\mathbf{x}) = 1 \dotminus c(\mathbf{x})$
+        \item $c_{\wedge}(\mathbf{x}) = c_1(\mathbf{x}) \cdot c_2(\mathbf{x})$
+        \item $c_{\vee}(\mathbf{x}) = \mathrm{signum}(c_1(\mathbf{x}) + 
+        c_2(\mathbf{x}))$
+        \item $c_{\forall}(\mathbf{x}, u) = \prod^{u \dotminus 1}_{v = 0} 
+        c(\mathbf{x}, 
+        v)$
+        \item $c_{\exists}(\mathbf{x}, u) = \mathrm{signum}\left( \sum^{u 
+        \dotminus 1}_{v = 0} c(\mathbf{x}, v)\right)$
+    \end{enumerate}
+\end{proof}
+
+\paragraph{Bounded Minimization/Maximization}
+
+Given a (primitive) recursive relation $R$, then the bounded minimization
+
+$$
+\mathrm{Min}[R](x_1, \ldots, x_n, w) = 
+\begin{cases}
+    \begin{aligned}
+      &\textrm{the smallest } y \leq w \textrm{ for which } \\
+      &R(x_1, \ldots, x_n, y) \textrm{ holds}
+    \end{aligned}
+    & \textrm{if such a } y \textrm{ exists} \\
+    w + 1 & \textrm{otherwise}
+\end{cases}
+$$
+
+and the bounded maximization
+
+$$
+\mathrm{Max}[R](x_1, \ldots, x_n, w) = 
+\begin{cases}
+    \begin{aligned}
+      &\textrm{the largest } y \leq w \textrm{ for which } \\
+      &R(x_1, \ldots, x_n, y) \textrm{ holds}
+    \end{aligned}
+    & \textrm{if such a } y \textrm{ exists} \\
+    0 & \textrm{otherwise}
+\end{cases}
+$$
+
+are (primitive) recursive \textit{total} functions.
+
+\begin{proof}
+In the following proofs, use $\mathbf{x}$ as shorthand for $x_1, \ldots, x_n$.
+
+For bounded minimization, consider the relation $\forall t \leq i. \neg R(\mathbf{x}, t)$ and its characteristic function $c(\mathbf{x}, i)$. If a smallest $y \leq w$ exists s.t. $R(\mathbf{x}, y)$, then the first $y$ inputs to the characteristic function will be associated with output $1$ and any inputs from $y$ onwards will be associated with $0$.
+
+\begin{align*}
+&c(\mathbf{x}, 0) = \ldots = c(\mathbf{x}, y - 1) = 1 \\
+&c(\mathbf{x}, y) = \ldots = c(\mathbf{x}, w) = 0
+\end{align*}
+
+However if no such $y$ exists, then all $w + 1$ inputs will be associated with $1$.
+
+$$c(\mathbf{x}, 0) = \ldots = c(\mathbf{x}, w) = 1$$
+
+So, the characteristic function of $\mathrm{Min}[R]$ can be given as the bounded sum over $c(\mathbf{x}, i)$:
+
+$$c_{\mathrm{Min}}(\mathbf{x}, w) = \sum_{i = 0}^{w} c(\mathbf{x}, i)$$
+
+For bounded maximization consider instead the relation $\forall t < i. R(\mathbf{x}, w \dotminus t)$. If a greatest $y \leq w$ exists s.t. $R(\mathbf{x}, y)$, then the last $y$ inputs will be associated to $1$ by its characteristic function, whereas any inputs before will be associated with $0$. If no such $y$ exists then all inputs will be associated with $0$. It is clear then that the characteristic function of $\mathrm{Max}[R]$ can be constructed in the same way as with $\mathrm{Min}[R]$.
+
+\end{proof}
+Suppose that $f$ is a recursive function bounded by a primitive recursive function $g$ s.t. the least $y$ with $f(x_1, \ldots, x_n, y) = 0$ is always less than $g(x_1, \ldots, x_n)$. Then using $\mathrm{Min}$, we can state that the function $\mathrm{Mn}[f]$ is not just recursive but actually primitive recursive.
+
+\begin{proof} 
+In the following proof, use $\mathbf{x}$ as shorthand for $x_1, \ldots, x_n$.
+
+Let $R(\mathbf{x}, y)$ hold iff $f(\mathbf{x}, y) = 0$. Then we can bound the minimization search using $g$:
+
+$$\mathrm{Mn}[f](\mathbf{x}) = \mathrm{Min}[R](\mathbf{x}, g(\mathbf{x}))$$
+\end{proof}

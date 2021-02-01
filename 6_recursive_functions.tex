@@ -1,0 +1,63 @@
+\section{Recursive Functions}
+
+\subsection{Primitive Recursive Functions}
+
+Primitive recursive functions of the form $\nat^k \rightarrow \nat$ are built by
+composing primitive functions using function combinators. All primitive 
+recursive functions are total functions.
+
+\paragraph{Primitive Functions}
+
+The following primitive functions are primitive recursive.
+
+\begin{itemize}
+    \item The zero function
+          $$\mathrm{z}(x) = 0$$
+    \item The successor function
+          $$\mathrm{s}(x) = x'$$
+    \item The family of identity functions
+          $$\mathrm{id}^n_k(x_1, \ldots. x_n) = x_k$$
+          where $n, k \in \nat^+$ and $k \leq n$
+\end{itemize}
+
+\paragraph{Function Combinators}
+
+Function combinators construct primitive recursive functions using the given 
+primitive recursive functions. There are two:
+
+\begin{itemize}
+    \item The Composition combinator ($\mathrm{Cn}$)
+          $$\mathrm{Cn}[f, g_1, \ldots, g_k](x_1, \ldots, x_n) = 
+          f(g_1(x_1, \dots, x_n), \ldots, g_k(x_1, \ldots, x_n))$$
+    \item The Primitive Recursion combinator ($\mathrm{Pr}$)
+          \begin{alignat*}{2}
+            &\mathrm{Pr}[f, g](x_1, \ldots, x_n, 0) &&= f(x_1, \ldots, x_n) \\
+            &\mathrm{Pr}[f, g](x_1, \ldots, x_n, y') &&= g(x_1, \ldots, x_n, y, 
+            \mathrm{Pr}[f, g](x_1, \ldots, x_n, y))
+          \end{alignat*}
+
+\end{itemize}
+
+\subsection{Recursive Functions}
+
+Recursive functions are composed using the same primitive functions and 
+combinators as primitive recursive functions, along with the minimization 
+combinator ($\mathrm{Mn}$).
+
+$$
+\mathrm{Mn}[f](x_1, \ldots, x_n)=
+  \begin{cases}
+    y & 
+    \begin{aligned}
+      \textrm{if } &f(x_1, \ldots, x_n, y) = 0 \textrm{, and for all } t < y \\
+      &f(x_1, \ldots, x_n, t) \textrm{ is defined and }\neq 0 
+    \end{aligned}\\
+    \mathrm{undefined} & \textrm{if there is no such } y
+  \end{cases}
+$$
+
+The minimization combinator allows for partial functions to be defined. All
+recursive (partial) functions are effectively computable. \textbf{Church's 
+thesis} implies the converse that all effectively computable functions are 
+recursive.
+

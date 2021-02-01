@@ -170,30 +170,48 @@ are (primitive) recursive \textit{total} functions.
 \begin{proof}
 In the following proofs, use $\mathbf{x}$ as shorthand for $x_1, \ldots, x_n$.
 
-For bounded minimization, consider the relation $\forall t \leq i. \neg R(\mathbf{x}, t)$ and its characteristic function $c(\mathbf{x}, i)$. If a smallest $y \leq w$ exists s.t. $R(\mathbf{x}, y)$, then the first $y$ inputs to the characteristic function will be associated with output $1$ and any inputs from $y$ onwards will be associated with $0$.
+For bounded minimization, consider the relation $\forall t \leq i. \neg
+R(\mathbf{x}, t)$ and its characteristic function $c(\mathbf{x}, i)$. If a
+smallest $y \leq w$ exists s.t. $R(\mathbf{x}, y)$, then the first $y$ inputs to
+the characteristic function will be associated with output $1$ and any inputs
+from $y$ onwards will be associated with $0$.
 
 \begin{align*}
 &c(\mathbf{x}, 0) = \ldots = c(\mathbf{x}, y - 1) = 1 \\
 &c(\mathbf{x}, y) = \ldots = c(\mathbf{x}, w) = 0
 \end{align*}
 
-However if no such $y$ exists, then all $w + 1$ inputs will be associated with $1$.
+However if no such $y$ exists, then all $w + 1$ inputs will be associated with
+$1$.
 
 $$c(\mathbf{x}, 0) = \ldots = c(\mathbf{x}, w) = 1$$
 
-So, the characteristic function of $\mathrm{Min}[R]$ can be given as the bounded sum over $c(\mathbf{x}, i)$:
+So, the characteristic function of $\mathrm{Min}[R]$ can be given as the bounded
+sum over $c(\mathbf{x}, i)$:
 
 $$c_{\mathrm{Min}}(\mathbf{x}, w) = \sum_{i = 0}^{w} c(\mathbf{x}, i)$$
 
-For bounded maximization consider instead the relation $\forall t < i. R(\mathbf{x}, w \dotminus t)$. If a greatest $y \leq w$ exists s.t. $R(\mathbf{x}, y)$, then the last $y$ inputs will be associated to $1$ by its characteristic function, whereas any inputs before will be associated with $0$. If no such $y$ exists then all inputs will be associated with $0$. It is clear then that the characteristic function of $\mathrm{Max}[R]$ can be constructed in the same way as with $\mathrm{Min}[R]$.
+For bounded maximization consider instead the relation $\forall t < i.
+R(\mathbf{x}, w \dotminus t)$. If a greatest $y \leq w$ exists s.t.
+$R(\mathbf{x}, y)$, then the last $y$ inputs will be associated to $1$ by its
+characteristic function, whereas any inputs before will be associated with $0$.
+If no such $y$ exists then all inputs will be associated with $0$. It is clear
+then that the characteristic function of $\mathrm{Max}[R]$ can be constructed in
+the same way as with $\mathrm{Min}[R]$.
 
 \end{proof}
-Suppose that $f$ is a recursive function bounded by a primitive recursive function $g$ s.t. the least $y$ with $f(x_1, \ldots, x_n, y) = 0$ is always less than $g(x_1, \ldots, x_n)$. Then using $\mathrm{Min}$, we can state that the function $\mathrm{Mn}[f]$ is not just recursive but actually primitive recursive.
+
+Suppose that $f$ is a recursive function bounded by a primitive recursive
+function $g$ s.t. the least $y$ with $f(x_1, \ldots, x_n, y) = 0$ is always less
+than $g(x_1, \ldots, x_n)$. Then using $\mathrm{Min}$, we can state that the
+function $\mathrm{Mn}[f]$ is not just recursive but actually primitive
+recursive.
 
 \begin{proof} 
 In the following proof, use $\mathbf{x}$ as shorthand for $x_1, \ldots, x_n$.
 
-Let $R(\mathbf{x}, y)$ hold iff $f(\mathbf{x}, y) = 0$. Then we can bound the minimization search using $g$:
+Let $R(\mathbf{x}, y)$ hold iff $f(\mathbf{x}, y) = 0$. Then we can bound the
+minimization search using $g$:
 
 $$\mathrm{Mn}[f](\mathbf{x}) = \mathrm{Min}[R](\mathbf{x}, g(\mathbf{x}))$$
 \end{proof}

@@ -81,11 +81,10 @@ $$
 
 which implies that $F$ is (primitive) recursive if $f$ is.
 
-\paragraph{Logical Operations}
+\paragraph{Closure Properties}
 
-There are logical operations that mirror the classical logic connectives. They
-define new relations from previous ones. If the relations it operates on are 
-(primitive) recursive, then so is the newly defined relation.
+In addition to substitution, these relational operations define new (primitive)
+recursive relations from previously defined ones.
 
 Here, $\mathbf{x}$ denotes an argument list $x_1, \ldots, x_n$.
 
@@ -120,7 +119,8 @@ Here, $\mathbf{x}$ denotes an argument list $x_1, \ldots, x_n$.
 
 \begin{proof} 
 Each proof defines the characteristic function of the operator in 
-terms of the characteristic function(s) of the given relation(s).
+terms of the characteristic function(s) of the given relation(s). So, if the
+given relation(s) are primitive recursive so must the new relation.
 
     \begin{enumerate}
         \item $c_{\neg}(\mathbf{x}) = 1 \dotminus c(\mathbf{x})$
@@ -140,7 +140,7 @@ terms of the characteristic function(s) of the given relation(s).
 Given a (primitive) recursive relation $R$, then the bounded minimization
 
 $$
-\mathrm{Min}[R](x_1, \ldots, x_n, w) = 
+\mathrm{Min}[R](x_1, \ldots, x_n, w) =
 \begin{cases}
     \begin{aligned}
       &\textrm{the smallest } y \leq w \textrm{ for which } \\
@@ -214,4 +214,114 @@ Let $R(\mathbf{x}, y)$ hold iff $f(\mathbf{x}, y) = 0$. Then we can bound the
 minimization search using $g$:
 
 $$\mathrm{Mn}[f](\mathbf{x}) = \mathrm{Min}[R](\mathbf{x}, g(\mathbf{x}))$$
+\end{proof}
+
+Finally, given a recursive relation $R$, then the total/partial function $r$
+
+$$r(x_1, \ldots, x_n) = \textrm{the least } y \textrm{ such that } R(x_1,
+\ldots, x_n, y)$$
+
+is recursive.
+
+\begin{proof}
+The function r is just $\mathrm{Mn}[c]$ where $c$ is the characteristic function
+of $\neg R$.
+\end{proof}
+
+\subsection{Semirecursive Relations}
+
+Given a recursive relation $R$, the relation $S$ defined as
+
+$$S(x_1, \ldots, x_n) \leftrightarrow \exists y. R(x_1, \ldots, x_n, y)$$
+
+is semirecursive. The unbounded quantification implies that a procedure can
+compute $S(x_1, \ldots, x_n)$ in finite time if the relation holds, but may
+never halt if it does not.
+
+\paragraph{Closure Properties}
+
+As with recursive relations, we can show similar properties of semirecursive
+relations.
+
+\begin{enumerate}
+    \item Any recursive relation is semirecursive.
+    
+      \begin{proof}
+        Given a recursive relation construct $Q(\mathbf{x}, y) \leftrightarrow
+        (R(\mathbf{x}) \land y = y)$. Then we can also define $R$ as
+        $R(\mathbf{x}) \leftrightarrow \exists y. Q(\mathbf{x}, y)$. Because $Q$
+        is recursive, this implies $R$ is semirecursive.
+      \end{proof}
+
+    \item Substituting recursive total functions into a semirecursive relation
+    produces a recursive relation.
+
+      \begin{proof}
+        Given a semirecursive relation $R(\mathbf{x}) \leftrightarrow \exists y.
+        S(\mathbf{x}, y)$ and some functions $f_1, \ldots, f_n$ to substitute,
+        construct the relation $Q(\mathbf{x}, y) \leftrightarrow S(f_1(x_1),
+        \ldots, f_n(x_n), y)$.  Then $\mathrm{Sub}[R, f_1, \ldots,
+        f_n](\mathbf{x}) \leftrightarrow \exists y. Q(\mathbf{x}, y)$ is
+        semirecursive because Q is recursive.
+      \end{proof}
+
+    \item The conjunction of two semirecursive relations is semirecursive.
+
+      \begin{proof}
+        Given semirecursive relations $R_1$ and $R_2$ s.t. $R_i(\mathbf{x})
+        \leftrightarrow \exists y.  S_i(\mathbf{x}, y)$, construct the recursive
+        relation $Q(\mathbf{x}, w) \leftrightarrow \exists y_1 < w .\exists y_2
+        < w.  (S_1(\mathbf{x}, y_1) \land S_2(\mathbf{x}, y_2))$. Then
+        $(R_1(\mathbf{x}) \land R_2(\mathbf{x})) \leftrightarrow \exists w.
+        Q(\mathbf{x}, w)$ is semirecursive.
+      \end{proof}
+
+    \item The disjunction of two semirecursive relations is semirecursive.
+
+      \begin{proof}
+        Given semirecursive relations $R_1$ and $R_2$ s.t. $R_i(\mathbf{x})
+        \leftrightarrow \exists y.  S_i(\mathbf{x}, y)$, construct the recursive
+        relation $Q(\mathbf{x}, y) \leftrightarrow (S_1(\mathbf{x}, y) \lor
+        S_2(\mathbf{x}, y))$. Then $(R_1(\mathbf{x}) \lor R_2(\mathbf{x}))
+        \leftrightarrow \exists y.  Q(\mathbf{x}, y)$ is semirecursive.
+      \end{proof}
+    
+    \item The relation obtained by bounded universal quantification on a
+    semirecursive function is semirecursive.   
+
+      \begin{proof}
+        Given a semirecursive relation $R(\mathbf{x}, y) \leftrightarrow \exists
+        z. S(\mathbf{x}, y, z)$, construct the recursive relation $Q(\mathbf{x},
+        w, v) \leftrightarrow \forall y < w. \exists z < v. S(\mathbf{x}, y,
+        z)$. Then $\forall y < w. R(\mathbf{x}, y) \leftrightarrow \exists v.
+        Q(\mathbf{x}, w, v)$ is semirecursive.
+      \end{proof}
+
+    \item The relation obtained by \textit{unbounded} existential quantification
+    on a semirecursive function is semirecursive.
+
+      \begin{proof}
+        Given a semirecursive relation $R(\mathbf{x}, y) \leftrightarrow \exists
+        z. S(\mathbf{x}, y, z)$, construct the recursive relation $Q(\mathbf{x},
+        w) \leftrightarrow \exists y < w. \exists z < w. S(\mathbf{x}, y, z)$.
+        Then $\exists y. R(\mathbf{x}, y) \leftrightarrow \exists w.
+        Q(\mathbf{x}, w)$ is semirecursive.
+      \end{proof}
+
+\end{enumerate}
+
+\paragraph{Complementation Principle}
+Also known as Kleene's theorem. If a set and its complement are both
+semirecursive, then both are actually recursive.
+
+\begin{proof}
+TODO
+\end{proof}
+
+\paragraph{First Graph Principle}
+If the graph relation of a total or partial function is semirecursive, then the
+function itself is recursive.
+
+\begin{proof}
+TODO
 \end{proof}
